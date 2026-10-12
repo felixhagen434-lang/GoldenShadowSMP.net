@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="de" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoldenShadowSMP - Minecraft Java Server 1.21.10</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            300: '#FFF099',
+                            400: '#FFE066',
+                            500: '#FFD700',
+                            600: '#E6C200',
+                            700: '#CCAD00',
+                        },
+                        obsidian: {
+                            950: '#07080A',
+                            900: '#0B0D10',
+                            800: '#12161E',
+                            700: '#1B212D',
+                            600: '#2A3344',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        title: ['Cinzel', 'serif'],
+                    },
+                    boxShadow: {
+                        'gold-glow': '0 0 25px -5px rgba(255, 215, 0, 0.35)',
+                        'gold-glow-lg': '0 0 50px -10px rgba(255, 215, 0, 0.45)',
+                        'discord-glow': '0 0 35px -5px rgba(88, 101, 242, 0.4)',
+                        'yt-glow': '0 0 35px -5px rgba(255, 0, 0, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0D10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2A3344;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FFD700;
+        }
+
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(255, 215, 0, 0.08) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        .glass-card {
+            background: rgba(18, 22, 30, 0.75);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 215, 0, 0.12);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 215, 0, 0.35);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.25; transform: scale(1); }
+            50% { opacity: 0.55; transform: scale(1.05); }
+        }
+
+        .animate-pulse-slow {
+            animation: pulse-slow 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-obsidian-950 text-gray-100 font-sans antialiased selection:bg-gold-500 selection:text-obsidian-950 min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <header class="sticky top-0 z-50 glass-card border-b border-white/5 bg-obsidian-950/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3.5 group">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-gold-400 via-amber-500 to-amber-700 flex items-center justify-center text-obsidian-950 font-black text-xl shadow-gold-glow group-hover:scale-105 transition-transform duration-300">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+                <div>
+                    <span class="font-title text-xl sm:text-2xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-gold-400 to-amber-500">
+                        GOLDEN SHADOW
+                    </span>
+                    <span class="block text-[10px] tracking-widest text-gold-400 uppercase font-bold">Java 1.21.10 SMP</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:flex items-center gap-5 text-sm font-medium">
+                <a href="#about" class="text-gray-300 hover:text-gold-400 transition-colors">Startseite</a>
+                <a href="#status" class="text-gray-300 hover:text-gold-400 transition-colors">Live Status</a>
+                <a href="#player-ranks" class="text-amber-400 hover:text-gold-300 transition-colors flex items-center gap-1.5 font-semibold">
+                    <i class="fa-solid fa-gem text-xs"></i> Spieler-Ränge
+                </a>
+                <a href="#team-ranks" class="text-gray-300 hover:text-gold-400 transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-shield-halved text-xs"></i> Team
+                </a>
+                <a href="#partners" class="text-gray-300 hover:text-gold-400 transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-handshake text-xs"></i> Partner
+                </a>
+                <a href="#rules" class="text-gold-400 hover:text-gold-300 transition-colors flex items-center gap-1.5 font-semibold">
+                    <i class="fa-solid fa-book-bookmark text-xs"></i> Regelwerk
+                </a>
+                <a href="#community" class="text-gray-300 hover:text-gold-400 transition-colors">Socials</a>
+            </nav>
+
+            <!-- Quick Action Buttons -->
+            <div class="hidden sm:flex items-center gap-3">
+                <a href="https://youtube.com/@goldenshadow426?si=0ufmgosM7NLZdvN7" target="_blank" rel="noopener" class="p-2.5 rounded-xl bg-red-600/10 border border-red-500/30 text-red-500 hover:bg-red-600 hover:text-white transition-all duration-300 flex items-center justify-center" title="GoldenShadow YouTube">
+                    <i class="fa-brands fa-youtube text-lg"></i>
+                </a>
+                <a href="https://discord.gg/CX26gMkbD" target="_blank" rel="noopener" class="px-4 py-2.5 rounded-xl bg-indigo-600/20 border border-indigo-500/40 text-indigo-300 hover:bg-indigo-600 hover:text-white font-semibold text-sm transition-all duration-300 flex items-center gap-2">
+                    <i class="fa-brands fa-discord text-lg"></i>
+                    <span>Discord</span>
+                </a>
+                <button onclick="copyServerIP()" class="relative group overflow-hidden rounded-xl bg-gradient-to-r from-gold-500 to-amber-600 p-px font-semibold text-obsidian-950 shadow-gold-glow hover:shadow-gold-glow-lg transition-all duration-300">
+                    <span class="px-4 py-2.5 rounded-[11px] bg-gradient-to-r from-gold-400 to-amber-500 group-hover:bg-opacity-0 transition-all duration-300 flex items-center gap-2 text-sm font-bold">
+                        <i class="fa-solid fa-copy"></i>
+                        <span>IP Kopieren</span>
+                    </span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn" class="lg:hidden text-gray-300 hover:text-white p-2 text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobile-menu" class="hidden lg:hidden glass-card border-t border-white/5 px-6 pt-3 pb-6 space-y-3">
+            <a href="#about" class="block py-2 text-gray-300 hover:text-gold-400 font-medium">Startseite</a>
+            <a href="#status" class="block py-2 text-gray-300 hover:text-gold-400 font-medium">Live Status</a>
+            <a href="#player-ranks" class="block py-2 text-amber-400 font-semibold">Spieler-Ränge</a>
+            <a href="#team-ranks" class="block py-2 text-gray-300 hover:text-gold-400 font-medium">Team-Ränge</a>
+            <a href="#partners" class="block py-2 text-gray-300 hover:text-gold-400 font-medium">Partnerschaften</a>
+            <a href="#rules" class="block py-2 text-gold-400 font-semibold">Regelwerk</a>
+            <a href="#community" class="block py-2 text-gray-300 hover:text-gold-400 font-medium">Social Media</a>
+            <div class="pt-2 space-y-2">
+                <a href="https://discord.gg/CX26gMkbD" target="_blank" rel="noopener" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-discord"></i>
+                    <span>Haupt Discord</span>
+                </a>
+                <button onclick="copyServerIP()" class="w-full py-3 bg-gradient-to-r from-gold-400 to-amber-500 text-obsidian-950 font-bold rounded-xl flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-copy"></i>
+                    <span>IP Kopieren</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section id="about" class="relative pt-12 pb-20 md:pt-20 md:pb-28 overflow-hidden bg-grid-pattern">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-gold-500/10 rounded-full blur-[140px] pointer-events-none animate-pulse-slow"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            
+            <!-- Live Status Pill -->
+            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-card border-gold-500/30 mb-8 animate-float shadow-md">
+                <span class="relative flex h-3.5 w-3.5">
+                  <span id="status-ping" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span id="status-dot" class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
+                </span>
+                <span class="text-xs sm:text-sm font-semibold tracking-wide text-gray-200">
+                    Status: <span id="server-status-text" class="text-emerald-400 font-bold">Prüfe Server...</span>
+                </span>
+                <span class="text-gray-600 text-xs">|</span>
+                <span class="text-xs text-gold-400 font-bold flex items-center gap-1.5">
+                    <i class="fa-solid fa-users text-xs"></i> <span id="player-count">--/-- Spieler</span>
+                </span>
+            </div>
+
+            <!-- Main Title -->
+            <h1 class="font-title text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-6 text-white leading-tight">
+                Willkommen auf <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-amber-500">
+                    GoldenShadowSMP
+                </span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-base sm:text-xl text-gray-300 mb-8 leading-relaxed font-light">
+                Der ultimative Survival SMP für Minecraft Java Edition. Erbaue dein Imperium, steige in Rängen auf und erkunde die Welt mit unserer einzigartigen Community!
+            </p>
+
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold mb-8">
+                <i class="fa-solid fa-desktop text-amber-400"></i>
+                <span>Exklusiv für Minecraft Java Edition — Version 1.21.10</span>
+            </div>
+
+            <!-- Server IP Copy Bar -->
+            <div class="max-w-lg mx-auto flex flex-col sm:flex-row items-center gap-3 p-2.5 rounded-2xl glass-card border-gold-500/30 shadow-gold-glow mb-10">
+                <div class="w-full sm:w-auto flex-1 px-4 py-3 bg-obsidian-950/90 rounded-xl text-left border border-white/5 flex items-center justify-between">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i class="fa-solid fa-network-wired text-gold-400"></i>
+                        <span id="server-ip-text" class="font-mono text-sm sm:text-base font-bold text-gray-100 truncate">GoldenShadowSMP.aternos.me</span>
+                    </div>
+                    <span class="text-[10px] bg-gold-500/15 text-gold-400 px-2 py-0.5 rounded font-bold uppercase tracking-wider ml-2 border border-gold-500/20">JAVA</span>
+                </div>
+                <button onclick="copyServerIP()" class="w-full sm:w-auto px-6 py-3.5 bg-gradient-to-r from-gold-400 to-amber-500 hover:from-gold-500 hover:to-amber-600 text-obsidian-950 font-black rounded-xl transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap active:scale-95 shadow-lg">
+                    <i class="fa-solid fa-copy"></i>
+                    <span>IP Kopieren</span>
+                </button>
+            </div>
+
+            <!-- Call To Actions -->
+            <div class="flex flex-wrap justify-center items-center gap-4">
+                <a href="https://discord.gg/CX26gMkbD" target="_blank" rel="noopener" class="px-7 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold shadow-discord-glow transition-all duration-300 flex items-center gap-3 group">
+                    <i class="fa-brands fa-discord text-2xl group-hover:scale-110 transition-transform"></i>
+                    <span>Haupt Discord</span>
+                    <i class="fa-solid fa-arrow-right text-xs opacity-70 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="https://youtube.com/@goldenshadow426?si=0ufmgosM7NLZdvN7" target="_blank" rel="noopener" class="px-7 py-3.5 rounded-2xl bg-red-600/20 border border-red-500/40 text-red-400 hover:bg-red-600 hover:text-white font-bold shadow-yt-glow transition-all duration-300 flex items-center gap-3">
+                    <i class="fa-brands fa-youtube text-2xl"></i>
+                    <span>GoldenShadow YT</span>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="status" class="py-12 bg-obsidian-900 border-y border-white/5 relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border-gold-500/20 relative overflow-hidden">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="space-y-2 text-center md:text-left">
+                        <span class="text-xs font-bold uppercase tracking-widest text-gold-400">Echtzeit Abfrage</span>
+                        <h3 class="text-2xl font-bold text-white">Live Server Status & Information</h3>
+                        <p class="text-sm text-gray-300 max-w-xl">
+                            Unser Server läuft über Aternos. Sollte er gerade offline sein, starte ihn einfach mit dem Server-Bot auf unserem Haupt-Discord!
+                        </p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+                        <div class="bg-obsidian-950/80 p-4 rounded-2xl border border-white/5 text-center min-w-[130px]">
+                            <span class="block text-xs text-gray-400 font-semibold mb-1">SPIELER</span>
+                            <span id="status-card-players" class="text-2xl font-black text-gold-400">-- / --</span>
+                        </div>
+                        <div class="bg-obsidian-950/80 p-4 rounded-2xl border border-white/5 text-center min-w-[130px]">
+                            <span class="block text-xs text-gray-400 font-semibold mb-1">VERSION</span>
+                            <span id="status-card-version" class="text-2xl font-black text-emerald-400">Java 1.21.10</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="player-ranks" class="py-20 relative bg-obsidian-950 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="inline-block px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-bold uppercase tracking-widest mb-3">
+                    <i class="fa-solid fa-gem mr-1"></i> Ingame Perks & Vorteile
+                </span>
+                <h2 class="font-title text-3xl sm:text-5xl font-bold text-white">Spieler-Ränge auf GoldenShadowSMP</h2>
+                <p class="text-gray-400 mt-3 text-sm sm:text-base">
+                    Entdecke alle Ingame-Ränge, ihre exklusiven Rechte, Befehle und Perks auf Version 1.21.10.
+                </p>
+            </div>
+
+            <!-- Player Ranks Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+
+                <!-- Rang 1: Spieler -->
+                <div class="glass-card rounded-3xl p-6 border-slate-500/30 hover:border-slate-400 transition-all duration-300 relative overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-slate-600 to-slate-800 flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-slate-500/20 border border-slate-500/40 text-slate-300 text-xs font-bold uppercase">
+                                Standard
+                            </span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-1">Spieler</h3>
+                        <p class="text-xs text-slate-400 font-semibold mb-4">Start-Rang für alle Member</p>
+                        
+                        <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-slate-400"></i>
+                                <span><strong>3 Home-Punkte</strong> (`/sethome`)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-slate-400"></i>
+                                <span>Zugriff auf Starter-Kit (`/kit starter`)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-slate-400"></i>
+                                <span>Zugriff auf Spawn & TPA (`/spawn`, `/tpa`)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-slate-400"></i>
+                                <span>Eigenen Shop erstellen (`/shop`)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-slate-400"></i>
+                                <span>Grundstücksschutz / Claims</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-500/10 border border-slate-500/20 text-slate-300 text-[11px] font-medium text-center">
+                        <i class="fa-solid fa-gift mr-1"></i> Gratis ab dem ersten Join
+                    </div>
+                </div>
+
+                <!-- Rang 2: VIP / Prime -->
+                <div class="glass-card rounded-3xl p-6 border-indigo-500/40 hover:border-indigo-400 transition-all duration-300 relative overflow-hidden flex flex-col justify-between shadow-discord-glow">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/40 text-indigo-300 text-xs font-bold uppercase">
+                                VIP
+                            </span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-1">VIP / Prime</h3>
+                        <p class="text-xs text-indigo-400 font-semibold mb-4">Für aktive Unterstützer</p>
+                        
+                        <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-indigo-400"></i>
+                                <span><strong>6 Home-Punkte</strong> (`/sethome`)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-indigo-400"></i>
+                                <span>Mobiles Werkbank-Menu (`/workbench`)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-indigo-400"></i>
+                                <span>Block als Hut aufsetzen (`/hat`)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-indigo-400"></i>
+                                <span>Farblicher Prefix & Chat-Farbe</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-indigo-400"></i>
+                                <span>VIP-Kit alle 24 Std. (`/kit vip`)</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-[11px] font-medium text-center">
+                        <i class="fa-solid fa-trophy mr-1"></i> Freischaltbar via Quests & Spielzeit
+                    </div>
+                </div>
+
+                <!-- Rang 3: Champion / Titan -->
+                <div class="glass-card rounded-3xl p-6 border-emerald-500/40 hover:border-emerald-400 transition-all duration-300 relative overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                                <i class="fa-solid fa-shield-cat"></i>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase">
+                                Elite
+                            </span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-1">Champion</h3>
+                        <p class="text-xs text-emerald-400 font-semibold mb-4">Fortgeschrittener Premium-Rang</p>
+                        
+                        <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-emerald-400"></i>
+                                <span><strong>10 Home-Punkte</strong> (`/sethome`)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-emerald-400"></i>
+                                <span>Mobiles Enderchest-Menu (`/enderchest`)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-emerald-400"></i>
+                                <span>Kein Zeitverlust bei Teleportation</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-emerald-400"></i>
+                                <span>Vorrang beim Server-Beitritt (Queue)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-emerald-400"></i>
+                                <span>Zugriff auf Partikel-Effekte (`/trail`)</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[11px] font-medium text-center">
+                        <i class="fa-solid fa-bolt mr-1"></i> Hohe Priorität & Exklusive Befehle
+                    </div>
+                </div>
+
+                <!-- Rang 4: Shadow-Legende -->
+                <div class="glass-card rounded-3xl p-6 border-gold-500/50 hover:border-gold-400 transition-all duration-300 relative overflow-hidden flex flex-col justify-between shadow-gold-glow">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-gold-400 via-amber-500 to-amber-700 flex items-center justify-center text-obsidian-950 text-xl font-black shadow-lg">
+                                <i class="fa-solid fa-crown"></i>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-gold-500/20 border border-gold-500/40 text-gold-300 text-xs font-black uppercase">
+                                LEGEND
+                            </span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-1">Shadow-Legende</h3>
+                        <p class="text-xs text-gold-400 font-semibold mb-4">Der ultimative High-End Rang</p>
+                        
+                        <ul class="space-y-2 text-xs text-gray-300 mb-6">
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-gold-400"></i>
+                                <span><strong>Unbegrenzte Homes</strong> (`/sethome`)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-gold-400"></i>
+                                <span>Mobiles Müll- & Amboss-Menu (`/anvil`)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-gold-400"></i>
+                                <span>Fly-Recht in eigenen Sektoren (`/fly`)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-gold-400"></i>
+                                <span>Exklusiver goldener Chat-Tag & Glow</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-gold-400"></i>
+                                <span>Zugriff auf Legenden-Kit & Pets</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-3 rounded-xl bg-gold-500/10 border border-gold-500/20 text-gold-300 text-[11px] font-bold text-center">
+                        <i class="fa-solid fa-star mr-1"></i> Höchster Ingame-Status
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Rank System Explanation -->
+            <div class="glass-card rounded-3xl p-8 border border-gold-500/30 bg-gradient-to-r from-obsidian-900 via-obsidian-800 to-obsidian-900">
+                <div class="grid md:grid-cols-3 gap-6 items-center">
+                    <div class="md:col-span-2 space-y-2">
+                        <span class="text-xs font-bold text-gold-400 uppercase tracking-widest"><i class="fa-solid fa-arrow-trend-up mr-1"></i> Rang-Aufstiegssystem</span>
+                        <h3 class="text-2xl font-bold text-white">Wie steige ich auf GoldenShadowSMP auf?</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Ränge können durch aktive Spielzeit, das Abschließen von Ingame-Quests, Event-Siege oder über Support-Aktionen auf unserem Discord erworben werden.
+                        </p>
+                    </div>
+                    <div class="text-center md:text-right">
+                        <a href="https://discord.gg/CX26gMkbD" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-gold-400 to-amber-500 hover:from-gold-500 hover:to-amber-600 text-obsidian-950 font-black rounded-xl shadow-gold-glow transition-all duration-300 text-sm">
+                            <i class="fa-brands fa-discord"></i>
+                            <span>Mehr auf Discord erfahren</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="team-ranks" class="py-20 relative bg-obsidian-900 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="inline-block px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-bold uppercase tracking-widest mb-3">
+                    <i class="fa-solid fa-users-gear mr-1"></i> Hierarchie & Aufgaben
+                </span>
+                <h2 class="font-title text-3xl sm:text-5xl font-bold text-white">Das Server-Team</h2>
+                <p class="text-gray-400 mt-3 text-sm sm:text-base">
+                    Verantwortlichkeiten und Aufgabenbereiche unseres Admin- & Serverteams.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <!-- Owner / Admin -->
+                <div class="glass-card rounded-3xl p-6 border-red-500/30 hover:border-red-500 transition-all duration-300 relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-red-500 to-amber-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <span class="px-3 py-1 rounded-full bg-red-500/20 border border-red-500/40 text-red-400 text-xs font-black uppercase tracking-wider">
+                            [OWNER]
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-1">Projektleitung</h3>
+                    <p class="text-xs text-red-400 font-semibold mb-4">Gesamtverantwortung</p>
+                    <ul class="space-y-2 text-xs text-gray-300">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-red-400 mt-0.5"></i> Serversteuerung & Aternos</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-red-400 mt-0.5"></i> Regelwerk & System-Updates</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-red-400 mt-0.5"></i> Finale Ban- und Entbannungsentscheidungen</li>
+                    </ul>
+                </div>
+
+                <!-- Developer -->
+                <div class="glass-card rounded-3xl p-6 border-cyan-500/30 hover:border-cyan-400 transition-all duration-300 relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <span class="px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 text-xs font-black uppercase tracking-wider">
+                            [DEVELOPER]
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-1">Entwicklung</h3>
+                    <p class="text-xs text-cyan-400 font-semibold mb-4">Technik & Performance</p>
+                    <ul class="space-y-2 text-xs text-gray-300">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cyan-400 mt-0.5"></i> Plugin-Einrichtung & Tests</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cyan-400 mt-0.5"></i> Fehlerbehebung & Lag-Optimierung</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-cyan-400 mt-0.5"></i> Implementation neuer Ingame-Features</li>
+                    </ul>
+                </div>
+
+                <!-- Moderator -->
+                <div class="glass-card rounded-3xl p-6 border-indigo-500/30 hover:border-indigo-400 transition-all duration-300 relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <span class="px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/40 text-indigo-300 text-xs font-black uppercase tracking-wider">
+                            [MODERATOR]
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-1">Moderation</h3>
+                    <p class="text-xs text-indigo-400 font-semibold mb-4">Support & Sicherheit</p>
+                    <ul class="space-y-2 text-xs text-gray-300">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-indigo-400 mt-0.5"></i> Bearbeitung von Discord-Tickets</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-indigo-400 mt-0.5"></i> Durchsetzung der Chat- & Serverregeln</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-indigo-400 mt-0.5"></i> Mutes, Kicks und Verwarnungen</li>
+                    </ul>
+                </div>
+
+                <!-- Builder -->
+                <div class="glass-card rounded-3xl p-6 border-emerald-500/30 hover:border-emerald-400 transition-all duration-300 relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                            <i class="fa-solid fa-compass-drafting"></i>
+                        </div>
+                        <span class="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-black uppercase tracking-wider">
+                            [BUILDER]
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-1">Architekten</h3>
+                    <p class="text-xs text-emerald-400 font-semibold mb-4">Weltgestaltung & Spawns</p>
+                    <ul class="space-y-2 text-xs text-gray-300">
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i> Bau & Pflege des Hauptspawns</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i> Erstellung von Event-Arenen</li>
+                        <li class="flex items-start gap-2"><i class="fa-solid fa-check text-emerald-400 mt-0.5"></i> Dekorative Community-Bauprojekte</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="partners" class="py-20 relative bg-obsidian-950 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="inline-block px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest mb-3">
+                    <i class="fa-solid fa-handshake mr-1"></i> Netzwerke & Partner
+                </span>
+                <h2 class="font-title text-3xl sm:text-5xl font-bold text-white">Unsere Offiziellen Partner</h2>
+                <p class="text-gray-400 mt-3 text-sm sm:text-base">
+                    Wir arbeiten eng mit ausgewählten Partner-Communitys und Content Creatorn zusammen.
+                </p>
+            </div>
+
+            <!-- Partner Cards Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+
+                <!-- Partner 1: Monhax (Discord Partner) -->
+                <div class="glass-card rounded-3xl p-6 relative overflow-hidden flex flex-col justify-between border-amber-500/30 hover:border-gold-400 transition-all duration-300 group shadow-gold-glow">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-obsidian-950 text-xl font-bold shadow-lg">
+                                <i class="fa-solid fa-handshake"></i>
+                            </div>
+                            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[11px] font-bold">
+                                Partner Discord
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gold-400 transition-colors">Monhax</h3>
+                        <p class="text-xs text-amber-400 font-semibold mb-3">Discord Community</p>
+                        <p class="text-gray-300 text-xs leading-relaxed mb-6">
+                            Schau auf dem offiziellen Discord-Server von Monhax vorbei und tausche dich mit der Community aus.
+                        </p>
+                    </div>
+                    <a href="https://discord.gg/VMcPGrbdu" target="_blank" rel="noopener" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-gold-400 text-obsidian-950 font-black hover:from-amber-600 hover:to-gold-500 transition-all text-center text-xs flex items-center justify-center gap-2 shadow-md">
+                        <i class="fa-brands fa-discord text-base"></i>
+                        <span>Monhax Discord</span>
+                    </a>
+                </div>
+
+                <!-- Partner 2: MonhaxYT -->
+                <div class="glass-card rounded-3xl p-6 relative overflow-hidden flex flex-col justify-between border-red-500/30 hover:border-red-400 transition-all duration-300 group shadow-yt-glow">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                                <i class="fa-brands fa-youtube"></i>
+                            </div>
+                            <span class="px-2.5 py-0.5 rounded-full bg-red-500/20 border border-red-500/40 text-red-300 text-[11px] font-bold">
+                                Creator Partner
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-1 group-hover:text-red-400 transition-colors">MonhaxYT</h3>
+                        <p class="text-xs text-red-400 font-semibold mb-3">YouTube Partner</p>
+                        <p class="text-gray-300 text-xs leading-relaxed mb-6">
+                            Unterstütze den Kanal von MonhaxYT mit Minecraft Videos, Let's Plays und SMP Content.
+                        </p>
+                    </div>
+                    <a href="https://youtube.com/@monhaxyt?si=NAPVzu97AxeTagVo" target="_blank" rel="noopener" class="w-full py-3 rounded-xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 text-white font-bold transition-all text-center text-xs flex items-center justify-center gap-2 shadow-md">
+                        <i class="fa-brands fa-youtube text-base"></i>
+                        <span>MonhaxYT Kanal</span>
+                    </a>
+                </div>
+
+                <!-- Partner 3: Demonslayer (Discord Partner 2) -->
+                <div class="glass-card rounded-3xl p-6 relative overflow-hidden flex flex-col justify-between border-amber-500/30 hover:border-gold-400 transition-all duration-300 group shadow-gold-glow">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-gold-400 to-amber-500 flex items-center justify-center text-obsidian-950 text-xl font-bold shadow-lg">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[11px] font-bold">
+                                Partner Discord
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gold-400 transition-colors">Demonslayer</h3>
+                        <p class="text-xs text-gold-400 font-semibold mb-3">Discord Community</p>
+                        <p class="text-gray-300 text-xs leading-relaxed mb-6">
+                            Tritt der offiziellen Demonslayer-Community bei und nimm an gemeinsamen Server-Events teil!
+                        </p>
+                    </div>
+                    <a href="https://discord.gg/dKPhsXhje" target="_blank" rel="noopener" class="w-full py-3 rounded-xl bg-gradient-to-r from-gold-400 to-amber-500 text-obsidian-950 font-black hover:from-gold-500 hover:to-amber-600 transition-all text-center text-xs flex items-center justify-center gap-2 shadow-md">
+                        <i class="fa-brands fa-discord text-base"></i>
+                        <span>Demonslayer Discord</span>
+                    </a>
+                </div>
+
+                <!-- Partner 4: Demon Slayer (YouTube Creator 2) -->
+                <div class="glass-card rounded-3xl p-6 relative overflow-hidden flex flex-col justify-between border-purple-500/30 hover:border-purple-400 transition-all duration-300 group shadow-yt-glow">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-red-600 flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                                <i class="fa-brands fa-youtube"></i>
+                            </div>
+                            <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 text-[11px] font-bold">
+                                Creator Partner
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-1 group-hover:text-purple-400 transition-colors">Demon Slayer</h3>
+                        <p class="text-xs text-purple-400 font-semibold mb-3">YouTube Partner</p>
+                        <p class="text-gray-300 text-xs leading-relaxed mb-6">
+                            Besuche den offiziellen YouTube-Kanal von Demon Slayer für unterhaltsame Gaming & SMP Videos.
+                        </p>
+                    </div>
+                    <a href="https://youtube.com/@demon_slaye-i9n?si=LkuvjOJQ1dG5h3zD" target="_blank" rel="noopener" class="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white font-bold transition-all text-center text-xs flex items-center justify-center gap-2 shadow-md">
+                        <i class="fa-brands fa-youtube text-base"></i>
+                        <span>Demon Slayer Kanal</span>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Partner Callout Box -->
+            <div class="glass-card rounded-3xl p-8 border border-gold-500/30 relative overflow-hidden bg-gradient-to-r from-obsidian-900 via-obsidian-800 to-obsidian-900">
+                <div class="grid md:grid-cols-3 gap-8 items-center">
+                    <div class="md:col-span-2 space-y-3">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-gold-500/10 text-gold-400 text-xs font-bold">
+                            <i class="fa-solid fa-star"></i> DU MÖCHTEST PARTNER WERDEN?
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-white">Werde Teil des GoldenShadow Networks!</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Egal ob eigener Minecraft-Server, Discord-Community oder Content Creator – erstelle ein Support-Ticket auf unserem Haupt-Discord und bewirb dich für eine Partnerschaft!
+                        </p>
+                    </div>
+                    <div class="text-center md:text-right">
+                        <a href="https://discord.gg/CX26gMkbD" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-gold-400 to-amber-500 hover:from-gold-500 hover:to-amber-600 text-obsidian-950 font-black rounded-2xl shadow-gold-glow transition-all duration-300">
+                            <i class="fa-brands fa-discord text-xl"></i>
+                            <span>Jetzt Bewerben</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="rules" class="py-20 relative bg-obsidian-900 border-t border-white/5">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="inline-block px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-bold uppercase tracking-widest mb-3">
+                    <i class="fa-solid fa-scale-balanced mr-1"></i> Fairplay
+                </span>
+                <h2 class="font-title text-3xl sm:text-5xl font-bold text-white">Offizielles Regelwerk</h2>
+                <p class="text-gray-400 mt-3 text-sm sm:text-base">
+                    Auf <strong>GoldenShadowSMP</strong> legen wir großen Wert auf Fairplay, Respekt und eine angenehme Spielatmosphäre.
+                </p>
+            </div>
+
+            <!-- Search & Filter Bar -->
+            <div class="glass-card p-4 rounded-2xl mb-8 flex flex-col sm:flex-row gap-4 justify-between items-center border-gold-500/20">
+                <div class="relative w-full sm:w-80">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <input type="text" id="rule-search" oninput="filterRules()" placeholder="Regel suchen..." class="w-full bg-obsidian-950/80 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-400 transition-colors">
+                </div>
+                <div class="flex gap-2 w-full sm:w-auto overflow-x-auto">
+                    <button onclick="expandAllRules(true)" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-semibold text-gray-300 hover:text-white transition-colors">
+                        <i class="fa-solid fa-angles-down mr-1"></i> Alle Öffnen
+                    </button>
+                    <button onclick="expandAllRules(false)" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-semibold text-gray-300 hover:text-white transition-colors">
+                        <i class="fa-solid fa-angles-up mr-1"></i> Alle Schließen
+                    </button>
+                </div>
+            </div>
+
+            <!-- Rule Items §1 to §5 -->
+            <div id="rules-container" class="space-y-4">
+                
+                <div class="rule-card glass-card rounded-2xl overflow-hidden border border-white/10">
+                    <button onclick="toggleRule(1)" class="w-full px-6 py-5 text-left font-bold text-white flex justify-between items-center gap-4 hover:bg-white/5">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-gold-500/20 text-gold-400 flex items-center justify-center text-sm font-black">§1</span>
+                            Allgemeines Verhalten & Respekt
+                        </span>
+                        <i id="rule-icon-1" class="fa-solid fa-chevron-down text-gold-400 transition-transform"></i>
+                    </button>
+                    <div id="rule-content-1" class="hidden px-6 pb-6 text-gray-300 text-sm border-t border-white/5 pt-4 space-y-3">
+                        <p><strong>1.1 Respektvoller Umgang:</strong> Beleidigungen, Diskriminierung, Rassismus und Mobbing sind absolut untersagt.</p>
+                        <p><strong>1.2 Nicknames & Skins:</strong> Anstößige, rassistische oder irreführende Spielernamen und Skins sind verboten.</p>
+                        <p><strong>1.3 Anweisungen des Teams:</strong> Den Anweisungen des Admin-Teams ist stets Folge zu leisten.</p>
+                    </div>
+                </div>
+
+                <div class="rule-card glass-card rounded-2xl overflow-hidden border border-white/10">
+                    <button onclick="toggleRule(2)" class="w-full px-6 py-5 text-left font-bold text-white flex justify-between items-center gap-4 hover:bg-white/5">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-gold-500/20 text-gold-400 flex items-center justify-center text-sm font-black">§2</span>
+                            Cheats, Hacks & Fairplay
+                        </span>
+                        <i id="rule-icon-2" class="fa-solid fa-chevron-down text-gold-400 transition-transform"></i>
+                    </button>
+                    <div id="rule-content-2" class="hidden px-6 pb-6 text-gray-300 text-sm border-t border-white/5 pt-4 space-y-3">
+                        <p><strong>2.1 Modifikationen:</strong> Unfaire Modifikationen wie Killaura, X-Ray, Fly-Hacks oder Auto-Clicker führen zu einem sofortigen Permanent-Ban.</p>
+                        <p><strong>2.2 Bugusing & Duping:</strong> Das Ausnutzen von Spiel-Glitches oder Item-Duplizierung ist strengstens verboten.</p>
+                        <p><strong>2.3 Erlaubte Mods:</strong> OptiFine, Sodium, Minimaps (ohne Höhlen- & Spielerradar) und Shader sind gestattet.</p>
+                    </div>
+                </div>
+
+                <div class="rule-card glass-card rounded-2xl overflow-hidden border border-white/10">
+                    <button onclick="toggleRule(3)" class="w-full px-6 py-5 text-left font-bold text-white flex justify-between items-center gap-4 hover:bg-white/5">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-gold-500/20 text-gold-400 flex items-center justify-center text-sm font-black">§3</span>
+                            Griefing, Bauten & Abstand
+                        </span>
+                        <i id="rule-icon-3" class="fa-solid fa-chevron-down text-gold-400 transition-transform"></i>
+                    </button>
+                    <div id="rule-content-3" class="hidden px-6 pb-6 text-gray-300 text-sm border-t border-white/5 pt-4 space-y-3">
+                        <p><strong>3.1 Anti-Griefing:</strong> Das Zerstören fremder Bauten oder Stehlen aus fremden Kisten ist strikt untersagt.</p>
+                        <p><strong>3.2 Bauabstand:</strong> Halte beim Bauen mindestens 100 Blöcke Abstand zu bestehenden Nachbar-Basen, außer es besteht eine Absprache.</p>
+                        <p><strong>3.3 Lag-Maschinen:</strong> Redstone-Schaltungen, die den Server verlangsamen, werden kommentarlos entfernt.</p>
+                    </div>
+                </div>
+
+                <div class="rule-card glass-card rounded-2xl overflow-hidden border border-white/10">
+                    <button onclick="toggleRule(4)" class="w-full px-6 py-5 text-left font-bold text-white flex justify-between items-center gap-4 hover:bg-white/5">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-gold-500/20 text-gold-400 flex items-center justify-center text-sm font-black">§4</span>
+                            Discord & Chat Etikette
+                        </span>
+                        <i id="rule-icon-4" class="fa-solid fa-chevron-down text-gold-400 transition-transform"></i>
+                    </button>
+                    <div id="rule-content-4" class="hidden px-6 pb-6 text-gray-300 text-sm border-t border-white/5 pt-4 space-y-3">
+                        <p><strong>4.1 Spam & Werbung:</strong> Eigenwerbung für fremde Server oder Produkte ist im Chat und auf Discord verboten.</p>
+                        <p><strong>4.2 Voicechat:</strong> Im Voicechat gilt angenehme Lautstärke ohne Störgeräusche.</p>
+                    </div>
+                </div>
+
+                <div class="rule-card glass-card rounded-2xl overflow-hidden border border-white/10">
+                    <button onclick="toggleRule(5)" class="w-full px-6 py-5 text-left font-bold text-white flex justify-between items-center gap-4 hover:bg-white/5">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-lg bg-gold-500/20 text-gold-400 flex items-center justify-center text-sm font-black">§5</span>
+                            Strafmaß & Ban-Sanktionen
+                        </span>
+                        <i id="rule-icon-5" class="fa-solid fa-chevron-down text-gold-400 transition-transform"></i>
+                    </button>
+                    <div id="rule-content-5" class="hidden px-6 pb-6 text-gray-300 text-sm border-t border-white/5 pt-4 space-y-3">
+                        <p><strong>5.1 Verwarnungssystem:</strong> Bei leichten Verstößen erfolgt eine Verwarnung oder ein temporärer Mute/Kick.</p>
+                        <p><strong>5.2 Ausrüstung:</strong> Wer gehackt oder gegrieft hat, verliert sämtliche erarbeiteten Ränge und Items.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Rules Acceptance Toggle -->
+            <div class="mt-8 text-center glass-card p-6 rounded-2xl border-gold-500/30">
+                <button id="accept-rules-btn" onclick="acceptRules()" class="px-8 py-3.5 bg-gradient-to-r from-gold-400 to-amber-500 hover:from-gold-500 hover:to-amber-600 text-obsidian-950 font-black rounded-xl shadow-gold-glow transition-all duration-300 inline-flex items-center gap-2">
+                    <i class="fa-solid fa-check-double"></i>
+                    <span>Ich habe die Regeln gelesen & akzeptiere sie</span>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="community" class="py-20 relative bg-obsidian-950 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-gold-400 mb-2">Social Media</h2>
+                <h3 class="font-title text-3xl sm:text-5xl font-bold text-white">Bleibe Vernetzt</h3>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Main Discord Card -->
+                <div class="glass-card rounded-3xl p-6 sm:p-8 relative overflow-hidden group hover:shadow-discord-glow transition-all duration-500 flex flex-col justify-between border-indigo-500/20">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 text-3xl shadow-lg">
+                                    <i class="fa-brands fa-discord"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-2xl font-bold text-white">Haupt Discord</h4>
+                                    <span class="text-xs text-indigo-300 font-semibold uppercase tracking-wider">GoldenShadowSMP</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+                            Treffpunkt für die Community, Voice-Talks, Server-Support und den Aternos-Startbot!
+                        </p>
+                    </div>
+                    <a href="https://discord.gg/CX26gMkbD" target="_blank" rel="noopener" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-center transition-all duration-300 flex items-center justify-center gap-3">
+                        <i class="fa-brands fa-discord text-xl"></i>
+                        <span>Haupt Discord Beitreten</span>
+                    </a>
+                </div>
+
+                <!-- Main YouTube Card -->
+                <div class="glass-card rounded-3xl p-6 sm:p-8 relative overflow-hidden group hover:shadow-yt-glow transition-all duration-500 flex flex-col justify-between border-red-500/20">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 rounded-2xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500 text-3xl shadow-lg">
+                                    <i class="fa-brands fa-youtube"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-2xl font-bold text-white">YouTube Kanal</h4>
+                                    <span class="text-xs text-red-400 font-bold uppercase tracking-wider">@goldenshadow426</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+                            Abonniere den offiziellen Server-Kanal für Trailer, Event-Videos und Livestreams.
+                        </p>
+                    </div>
+                    <a href="https://youtube.com/@goldenshadow426?si=0ufmgosM7NLZdvN7" target="_blank" rel="noopener" class="w-full py-4 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-center transition-all duration-300 flex items-center justify-center gap-3">
+                        <i class="fa-brands fa-youtube text-xl"></i>
+                        <span>YouTube Kanal Besuchen</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-obsidian-950 border-t border-white/5 py-12 relative">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="w-8 h-8 rounded-lg bg-gold-500 text-obsidian-950 flex items-center justify-center font-bold text-sm">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+                <span class="font-title text-lg font-bold text-white">GoldenShadowSMP</span>
+            </div>
+
+            <div class="flex justify-center flex-wrap gap-5 text-xs sm:text-sm text-gray-400 mb-6">
+                <a href="https://discord.gg/CX26gMkbD" target="_blank" rel="noopener" class="hover:text-indigo-400">Haupt Discord</a>
+                <a href="https://discord.gg/VMcPGrbdu" target="_blank" rel="noopener" class="hover:text-amber-400">Monhax Discord</a>
+                <a href="https://discord.gg/dKPhsXhje" target="_blank" rel="noopener" class="hover:text-amber-400">Demonslayer Discord</a>
+                <a href="https://youtube.com/@goldenshadow426?si=0ufmgosM7NLZdvN7" target="_blank" rel="noopener" class="hover:text-red-400">GoldenShadow YT</a>
+                <a href="https://youtube.com/@monhaxyt?si=NAPVzu97AxeTagVo" target="_blank" rel="noopener" class="hover:text-red-400">MonhaxYT</a>
+                <a href="https://youtube.com/@demon_slaye-i9n?si=LkuvjOJQ1dG5h3zD" target="_blank" rel="noopener" class="hover:text-purple-400">Demon Slayer</a>
+            </div>
+
+            <div class="text-[11px] text-gray-600">
+                &copy; 2026 GoldenShadowSMP Java Edition (v1.21.10). All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="glass-card px-5 py-3.5 rounded-2xl border border-gold-500/50 shadow-gold-glow flex items-center gap-3 bg-obsidian-900">
+            <div class="w-9 h-9 rounded-xl bg-gold-500 text-obsidian-950 flex items-center justify-center text-sm font-black shadow-md">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <div>
+                <h5 id="toast-title" class="text-sm font-bold text-white">IP Kopiert!</h5>
+                <p id="toast-message" class="text-xs text-gray-300">GoldenShadowSMP.aternos.me</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SERVER_IP = "GoldenShadowSMP.aternos.me";
+
+        // Mobile drawer toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Rules toggle
+        function toggleRule(id) {
+            const content = document.getElementById(`rule-content-${id}`);
+            const icon = document.getElementById(`rule-icon-${id}`);
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        function expandAllRules(open) {
+            for (let i = 1; i <= 5; i++) {
+                const content = document.getElementById(`rule-content-${i}`);
+                const icon = document.getElementById(`rule-icon-${i}`);
+                if (content && icon) {
+                    if (open) {
+                        content.classList.remove('hidden');
+                        icon.classList.add('rotate-180');
+                    } else {
+                        content.classList.add('hidden');
+                        icon.classList.remove('rotate-180');
+                    }
+                }
+            }
+        }
+
+        function filterRules() {
+            const query = document.getElementById('rule-search').value.toLowerCase();
+            const ruleCards = document.querySelectorAll('.rule-card');
+
+            ruleCards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        }
+
+        function acceptRules() {
+            const btn = document.getElementById('accept-rules-btn');
+            btn.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-950"></i><span>Regeln Akzeptiert!</span>`;
+            btn.className = "px-8 py-3.5 bg-emerald-400 text-obsidian-950 font-black rounded-xl transition-all duration-300 inline-flex items-center gap-2 shadow-lg";
+            showToast("Vielen Dank!", "Du hast das Regelwerk akzeptiert!");
+        }
+
+        function copyServerIP() {
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = SERVER_IP;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+
+            showToast("IP Kopiert!", `${SERVER_IP} ist in der Zwischenablage.`);
+        }
+
+        function showToast(title, message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-title').textContent = title;
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+
+        // Live Server API Query
+        async function fetchServerStatus() {
+            const statusText = document.getElementById('server-status-text');
+            const playerCount = document.getElementById('player-count');
+            const statusDot = document.getElementById('status-dot');
+            const statusPing = document.getElementById('status-ping');
+            const cardPlayers = document.getElementById('status-card-players');
+
+            try {
+                const response = await fetch(`https://api.mcsrvstat.us/2/${SERVER_IP}`);
+                const data = await response.json();
+
+                if (data.online) {
+                    statusText.textContent = "ONLINE";
+                    statusText.className = "text-emerald-400 font-bold";
+                    playerCount.textContent = `${data.players.online} / ${data.players.max} Spieler`;
+                    if (cardPlayers) cardPlayers.textContent = `${data.players.online} / ${data.players.max}`;
+
+                    statusDot.className = "relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500";
+                    statusPing.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75";
+                } else {
+                    statusText.textContent = "OFFLINE (Aternos)";
+                    statusText.className = "text-amber-400 font-bold";
+                    playerCount.textContent = "0/0 Spieler";
+                    if (cardPlayers) cardPlayers.textContent = "0 / 0";
+                    
+                    statusDot.className = "relative inline-flex rounded-full h-3.5 w-3.5 bg-amber-500";
+                    statusPing.className = "hidden";
+                }
+            } catch (err) {
+                statusText.textContent = "Status unbekannt";
+                playerCount.textContent = "--/--";
+            }
+        }
+
+        window.onload = function() {
+            fetchServerStatus();
+            setInterval(fetchServerStatus, 30000);
+        };
+    </script>
+</body>
+</html>
